@@ -23,28 +23,27 @@ remindersRoute.get("/:id", (c) => {
 });
 
 remindersRoute.post(
-  "",
+  "/",
   validator("json", (value, c) => {
     const schema = z.object({
-      body: z.object({
-        title: z.string(),
-        dueDate: z.date(),
-      }),
+      title: z.string(),
+      dueDate: z.string(),
     });
 
     try {
       const parsed = schema.parse(value);
       return parsed;
     } catch (e) {
+      console.log(e);
       return c.json({ error: e }, 401);
     }
   }),
   (c) => {
-    const { body } = c.req.valid("json");
+    const { title, dueDate } = c.req.valid("json");
 
     const reminder = createReminder({
-      title: body.title,
-      dueDate: new Date(body.dueDate),
+      title,
+      dueDate: new Date(dueDate),
     });
 
     return c.json(reminder, 201);
