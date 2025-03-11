@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const remindersRoute = new Hono();
 
-remindersRoute.get("/", (c) => {
+remindersRoute.get("", (c) => {
   const reminders = getAllReminders();
 
   return c.json(reminders, 200);
@@ -23,7 +23,7 @@ remindersRoute.get("/:id", (c) => {
 });
 
 remindersRoute.post(
-  "/",
+  "",
   validator("json", (value, c) => {
     const schema = z.object({
       body: z.object({
